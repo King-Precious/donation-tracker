@@ -12,19 +12,21 @@ class SignupPage extends StatefulWidget {
 }
 
 class _SignupPageState extends State<SignupPage> {
-  List <String> roles = [
-    'Donor',
-    'NGO/Organisation',
-  ];
-  String? selectedRole;
-  
+  int selectedIndex = 0;
+
+  void selectedContainer(int index) {
+    setState(() {
+      selectedIndex = index;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
         backgroundColor: Colors.white,
         body: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 30),
+          padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 25),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -94,9 +96,9 @@ class _SignupPageState extends State<SignupPage> {
               ),
               const CustomTextfield(
                 labeltext: 'Password',
-                hinttext: '*****',
+                hinttext: '* * * * *',
               ),
-              const SizedBox(height: 20),
+              const SizedBox(height: 10),
               const Text('I am a...',
                   style: TextStyle(
                     fontSize: 18,
@@ -107,56 +109,87 @@ class _SignupPageState extends State<SignupPage> {
                 alignment: Alignment.center,
                 child: Row(
                   children: [
-                    Container(
-                      height: 80,
-                      width: 140,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(12),
-                        color: Themes.secondaryColor,
-                      ),
-                      child: const Center(
-                        child: Padding(
-                          padding: EdgeInsets.only(top: 12),
-                          child: Column(
-                            children: [
-                              Icon(
-                                Icons.handshake_outlined,
-                                color: Colors.white,
-                              ),
-                              Text(
-                                'Donor',
-                                style: TextStyle(
-                                  color: Colors.white,
+                    GestureDetector(
+                      onTap: () => selectedContainer(0),
+                      child: Container(
+                        height: 80,
+                        width: 140,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(12),
+                          color: selectedIndex == 0
+                              ? Themes.secondaryColor
+                              : Colors.white,
+                          border: Border.all(
+                            color: selectedIndex == 0
+                                ? Colors.transparent
+                                : Themes.borderColor,
+                            width: 1,
+                          ),
+                        ),
+                        child: Center(
+                          child: Padding(
+                            padding: const EdgeInsets.only(top: 12),
+                            child: Column(
+                              children: [
+                                Icon(
+                                  Icons.handshake_outlined,
+                                  color: selectedIndex == 0
+                                      ? Colors.white
+                                      : Themes.borderColor,
                                 ),
-                              ),
-                            ],
+                                Text(
+                                  'Donor',
+                                  style: TextStyle(
+                                    color: selectedIndex == 0
+                                        ? Colors.white
+                                        : Themes.borderColor,
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       ),
                     ),
                     const SizedBox(width: 30),
-                    Container(
-                      height: 80,
-                      width: 140,
-                      decoration: BoxDecoration(
+                    GestureDetector(
+                      onTap: () => selectedContainer(1),
+                      child: Container(
+                        height: 80,
+                        width: 140,
+                        decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(12),
-                          color: Themes.secondaryColor),
-                      child: const Center(
-                        child: Padding(
-                          padding: EdgeInsets.all(8.0),
-                          child: Column(
-                            children: [
-                              Icon(
-                                Icons.hotel_class_rounded,
-                                color: Colors.white,
-                              ),
-                              Text(
-                                'NGO/Organisation',
-                                style: TextStyle(
-                                  color: Colors.white,
+                          color: selectedIndex == 1
+                              ? Themes.secondaryColor
+                              : Colors.white,
+                          border: Border.all(
+                            color: selectedIndex == 1
+                                ? Colors.transparent
+                                : Themes.borderColor,
+                            width: 1,
+                          ),
+                        ),
+                        child: Center(
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Column(
+                              children: [
+                                Icon(
+                                  Icons.hotel_class_rounded,
+                                  color: selectedIndex == 1
+                                      ? Colors.white
+                                      : Themes.borderColor,
                                 ),
-                              ),
-                            ],
+                                Text(
+                                  'NGO/Organisation',
+                                  style: TextStyle(
+                                    color: selectedIndex == 1
+                                        ? Colors.white
+                                        : Themes.borderColor,
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       ),
@@ -164,10 +197,16 @@ class _SignupPageState extends State<SignupPage> {
                   ],
                 ),
               ),
-              Custombutton(
-                text:'Create Account',
-                onPressed: (){},
+              const SizedBox(height: 15),
+              Center(
+                child: Custombutton(
+                  text: 'Create Account',
+                  onPressed: () {
+                    Navigator.pushNamed(context, '/login_page');
+                  },
+                ),
               ),
+              const SizedBox(height: 5),
               const Center(
                 child: Text(
                   '''By registering, you agree to our Terms of Service 

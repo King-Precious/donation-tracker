@@ -19,12 +19,12 @@ class Custombutton extends StatelessWidget {
       style: ElevatedButton.styleFrom(
         backgroundColor: Themes.secondaryColor,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(10),
         ),
       ),
       child: SizedBox(
           height: 45,
-          width: 250,
+          width: 300,
           child: Center(
             child: Text(
               text,
@@ -36,6 +36,5 @@ class Custombutton extends StatelessWidget {
             ),
           )),
     );
-  
   }
 }
