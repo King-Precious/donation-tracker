@@ -46,7 +46,7 @@ class _LoginPageState extends State<LoginPage> {
           ),
           Text(
             role,
-            style: TextStyle(fontSize: 15),
+            style: const TextStyle(fontSize: 15),
           ),
         ],
       ),
@@ -106,9 +106,8 @@ class _LoginPageState extends State<LoginPage> {
             ),
             const CustomTextfield(
               labeltext: 'Email Address',
-              hinttext: 'Enter your Email Address',
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             const Text(
               'Password',
               style: TextStyle(
@@ -118,9 +117,8 @@ class _LoginPageState extends State<LoginPage> {
             ),
             const CustomTextfield(
               labeltext: 'Password',
-              hinttext: '* * * * *',
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             const Text(
               'Select Your Role',
               style: TextStyle(
@@ -133,13 +131,13 @@ class _LoginPageState extends State<LoginPage> {
                 'Donor',
                 Icons.person_2_outlined,
               ),
-              SizedBox(width: 10),
+              const SizedBox(width: 10),
               _buildRoleOption(
                 'NGO',
                 Icons.shield_outlined,
               ),
             ]),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             Custombutton(
                 text: 'Log in',
                 onPressed: () {
@@ -160,7 +158,7 @@ class _LoginPageState extends State<LoginPage> {
                   onPressed: () {
                     Navigator.pushNamed(context, '/signup_page');
                   },
-                  child: const Text(
+                  child: const Text( 
                     'Sign Up',
                     style: TextStyle(
                       color: Themes.secondaryColor,
