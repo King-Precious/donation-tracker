@@ -72,7 +72,6 @@ class _SignupPageState extends State<SignupPage> {
               ),
               const CustomTextfield(
                 labeltext: 'Full Name',
-                hinttext: 'Enter your Name',
               ),
               const SizedBox(height: 15),
               const Text(
@@ -84,7 +83,6 @@ class _SignupPageState extends State<SignupPage> {
               ),
               const CustomTextfield(
                 labeltext: 'Email Address',
-                hinttext: 'Enter your email',
               ),
               const SizedBox(height: 15),
               const Text(
@@ -95,8 +93,7 @@ class _SignupPageState extends State<SignupPage> {
                 ),
               ),
               const CustomTextfield(
-                labeltext: 'Password',
-                hinttext: '* * * * *',
+                labeltext:'Password',
               ),
               const SizedBox(height: 10),
               const Text('I am a...',
