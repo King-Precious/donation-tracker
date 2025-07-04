@@ -1,7 +1,6 @@
 import 'package:donation_tracker/widget/custom_button.dart';
 import 'package:donation_tracker/widget/custom_textfield.dart';
 import 'package:flutter/material.dart';
-
 import '../theme/theme_colors.dart';
 
 class LoginPage extends StatefulWidget {
@@ -11,8 +10,12 @@ class LoginPage extends StatefulWidget {
   State<LoginPage> createState() => _LoginPageState();
 }
 
+final formkey = GlobalKey<FormState>();
+final TextEditingController emailController = TextEditingController();
+final TextEditingController passwordController = TextEditingController();
+
 class _LoginPageState extends State<LoginPage> {
-  String selectedRole = 'Donor';
+  String selectedRole = '';
 
   Widget _buildRoleOption(String role, IconData icon) {
     return Container(
@@ -72,103 +75,144 @@ class _LoginPageState extends State<LoginPage> {
           icon: const Icon(Icons.arrow_back_ios),
         ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 30),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Padding(
-              padding: EdgeInsets.all(20),
-              child: Center(
-                child: Icon(Icons.assignment,
-                    size: 40, color: Themes.secondaryColor),
-              ),
-            ),
-            const Padding(
-              padding: EdgeInsets.all(12),
-              child: Center(
-                child: Text(
-                  'Welcome Back !',
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-              ),
-            ),
-            const Text(
-              'Email Address',
-              style: TextStyle(
-                fontSize: 15,
-                color: Color.fromARGB(255, 92, 91, 91),
-              ),
-            ),
-            const CustomTextfield(
-              labeltext: 'Email Address',
-            ),
-            const SizedBox(height: 10),
-            const Text(
-              'Password',
-              style: TextStyle(
-                fontSize: 15,
-                color: Color.fromARGB(255, 92, 91, 91),
-              ),
-            ),
-            const CustomTextfield(
-              labeltext: 'Password',
-            ),
-            const SizedBox(height: 10),
-            const Text(
-              'Select Your Role',
-              style: TextStyle(
-                fontSize: 15,
-                color: Color.fromARGB(255, 92, 91, 91),
-              ),
-            ),
-            Column(children: [
-              _buildRoleOption(
-                'Donor',
-                Icons.person_2_outlined,
-              ),
-              const SizedBox(width: 10),
-              _buildRoleOption(
-                'NGO',
-                Icons.shield_outlined,
-              ),
-            ]),
-            const SizedBox(height: 20),
-            Custombutton(
-                text: 'Log in',
-                onPressed: () {
-                  Navigator.pushNamed(context, '/donorDashboard');
-                }),
-            const SizedBox(height: 10),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 30),
+          child: Form(
+            key: formkey,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text(
-                  'Don\'t have an account yet?',
-                  style: TextStyle(
-                    color: Themes.borderColor,
-                    fontSize: 15,
+                const Padding(
+                  padding: EdgeInsets.all(20),
+                  child: Center(
+                    child: Icon(Icons.assignment,
+                        size: 40, color: Themes.secondaryColor),
                   ),
                 ),
-                TextButton(
-                  onPressed: () {
-                    Navigator.pushNamed(context, '/signup_page');
-                  },
-                  child: const Text( 
-                    'Sign Up',
-                    style: TextStyle(
-                      color: Themes.secondaryColor,
-                      fontSize: 15,
+                const Padding(
+                  padding: EdgeInsets.all(10),
+                  child: Center(
+                    child: Text(
+                      'Welcome Back !',
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.w500,
+                      ),
                     ),
                   ),
                 ),
+                const Text(
+                  'Email Address',
+                  style: TextStyle(
+                    fontSize: 15,
+                    color: Color.fromARGB(255, 92, 91, 91),
+                  ),
+                ),
+                CustomTextfield(
+                  labeltext: 'Email Address',
+                  controller: emailController,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter your email address';
+                    } else if (!RegExp(
+                            r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$')
+                        .hasMatch(value)) {
+                      return 'Please enter a valid email address';
+                    }
+                    return null;
+                  },
+                ),
+                const SizedBox(height: 10),
+                const Text(
+                  'Password',
+                  style: TextStyle(
+                    fontSize: 15,
+                    color: Color.fromARGB(255, 92, 91, 91),
+                  ),
+                ),
+                CustomTextfield(
+                    labeltext: 'Password',
+                    controller: passwordController,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter your password';
+                      } else if (value.length < 8 &&
+                          !RegExp(r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{8,}$')
+                              .hasMatch(value)) {
+                        return '''Password must be at least 8 characters long,
+contain at least one uppercase letter.''';
+                      }
+                      return null;
+                    }),
+                const SizedBox(height: 10),
+                const Text(
+                  'Select Your Role',
+                  style: TextStyle(
+                    fontSize: 15,
+                    color: Color.fromARGB(255, 92, 91, 91),
+                  ),
+                ),
+                Column(children: [
+                  _buildRoleOption(
+                    'Donor',
+                    Icons.person_2_outlined,
+                  ),
+                  const SizedBox(width: 10),
+                  _buildRoleOption(
+                    'NGO',
+                    Icons.shield_outlined,
+                  ),
+                ]),
+                const SizedBox(height: 20),
+                Custombutton(
+                    text: 'Log in',
+                    onPressed: () {
+                      if (formkey.currentState!.validate() &&
+                          (selectedRole == 'Donor' || selectedRole == 'NGO')) {
+                        Navigator.pushNamed(context, '/donorDashboard');
+                        // Perform login action
+                        // For example, you can call an API to authenticate the user
+                        // If successful, navigate to the dashboard
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(content: Text('Login Successful')),
+                        );
+                      } else {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                              content: Text('Please fill all fields')),
+                        );
+                      }
+                    }),
+                const SizedBox(height: 10),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Text(
+                      'Don\'t have an account yet?',
+                      style: TextStyle(
+                        color: Themes.borderColor,
+                        fontSize: 15,
+                      ),
+                    ),
+                    TextButton(
+                      onPressed: () {
+                        Navigator.pushNamed(context, '/signup_page');
+                      },
+                      child: const Text(
+                        'Sign Up',
+                        style: TextStyle(
+                          color: Themes.secondaryColor,
+                          fontSize: 15,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ],
             ),
-          ],
+          ),
         ),
       ),
     );

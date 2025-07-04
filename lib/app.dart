@@ -1,6 +1,6 @@
 import 'package:donation_tracker/pages/login_page.dart';
 import 'package:flutter/material.dart';
-import 'package:donation_tracker/pages/signup_page.dart';
+import 'package:donation_tracker/pages/signup/signup_page.dart';
 import 'package:donation_tracker/widget/bottom_navigation.dart';
 import 'package:donation_tracker/pages/ngo_dashboard.dart';
 import 'pages/donation_history.dart';

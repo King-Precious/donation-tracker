@@ -7,15 +7,6 @@ class ProfilePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(
-      //   title: const Text(
-      //     'Profile',
-      //     style: TextStyle(
-      //       fontSize: 24,
-      //       fontWeight: FontWeight.bold,
-      //     ),
-      //   ),
-      // ),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 15),
@@ -67,7 +58,7 @@ class ProfilePage extends StatelessWidget {
                               .withOpacity(0.3),
                           borderRadius: BorderRadius.circular(20),
                         ),
-                        child: Center(
+                        child: const Center(
                           child: Text('Donor',
                               style: TextStyle(
                                 color: Colors.white,
@@ -83,17 +74,17 @@ class ProfilePage extends StatelessWidget {
               const SizedBox(height: 20),
               _buildPassword(
                 'Account Settings',
-                Icon(Icons.lock_outline),
+                const Icon(Icons.lock_outline),
                 'Change Password',
-                Icon(Icons.notifications_active_outlined),
+                const Icon(Icons.notifications_active_outlined),
                 'Notification Settings',
               ),
               const SizedBox(height: 20),
               _buildPassword(
                 'General',
-                Icon(Icons.shield_outlined),
+                const Icon(Icons.shield_outlined),
                 'Privacy Policy',
-                Icon(Icons.help_outline),
+                const Icon(Icons.help_outline),
                 'Help & Support',
               ),
               const SizedBox(height: 20),
@@ -136,14 +127,14 @@ Widget _buildPassword(
           ),
           Row(children: [
             Padding(
-              padding: EdgeInsets.all(8.0),
+              padding: const EdgeInsets.all(8.0),
               child: icon,
             ),
             Text(
               title2,
               style: const TextStyle(fontSize: 15),
             ),
-            Spacer(),
+            const Spacer(),
             IconButton(
               onPressed: () {},
               icon: const Icon(
@@ -157,12 +148,12 @@ Widget _buildPassword(
             thickness: 1,
           ),
           Row(children: [
-            Padding(padding: EdgeInsets.all(8.0), child: icon2),
+            Padding(padding: const EdgeInsets.all(8.0), child: icon2),
             Text(
               title3,
               style: const TextStyle(fontSize: 15),
             ),
-            Spacer(),
+            const Spacer(),
             IconButton(
               onPressed: () {},
               icon: const Icon(

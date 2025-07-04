@@ -19,7 +19,7 @@ class DonationHistory extends StatelessWidget {
               Container(
                 height: 130,
                 width: double.infinity,
-                padding: EdgeInsets.all(15),
+                padding: const EdgeInsets.all(15),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10),
                   border: Border.all(
@@ -54,41 +54,41 @@ class DonationHistory extends StatelessWidget {
                   ],
                 ),
               ),
-              SizedBox(height: 17),
-              Text(
+              const SizedBox(height: 17),
+              const Text(
                 'Recent Transactions',
                 style: TextStyle(
                   fontSize: 17,
                   fontWeight: FontWeight.w400,
                 ),
               ),
-              SizedBox(height: 10),
-              HistoryCard(
+              const SizedBox(height: 10),
+              const HistoryCard(
                 title: 'Supporting Local Farmers',
                 date: 'November 20, 2023',
                 description: 'Confirmed',
               ),
-              HistoryCard(
+              const HistoryCard(
                 title: 'Clean Water Initiative',
                 date: 'October 21, 2023',
                 description: 'Confirmed',
               ),
-              HistoryCard(
+              const HistoryCard(
                 title: 'Emergency Flood Relief',
                 date: 'November 15, 2023',
                 description: 'Confirmed',
               ),
-              HistoryCard(
+              const HistoryCard(
                 title: 'Wildlife Conservation',
                 date: 'November 2, 2023',
                 description: 'Confirmed',
               ),
-              HistoryCard(
+              const HistoryCard(
                 title: 'Global Health Aid',
                 date: 'September 15, 2023',
                 description: 'Confirmed',
               ),
-              HistoryCard(
+              const HistoryCard(
                 title: 'Animal Shelter Support',
                 date: 'November 02, 2023',
                 description: 'Confirmed',

@@ -1,14 +1,11 @@
-// import 'package:donation_tracker/widget/campaign_card.dart';
 import 'package:donation_tracker/pages/campaign_screen.dart';
-
 import 'package:flutter/material.dart';
-
 import '../pages/donor_dash.dart';
 import '../pages/profile.dart';
 import '../theme/theme_colors.dart';
 import '../pages/donation_history.dart';
 
-// import '../theme/theme_colors.dart';
+
 
 class BottomNavigationScreen extends StatefulWidget {
   const BottomNavigationScreen({super.key});
@@ -26,6 +23,13 @@ class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
     ProfilePage(),
   ];
 
+  List<String> appBarList = [
+    'Donor Dashboard',
+    'Campaigns',
+    'History',
+    'Profile',
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,9 +37,9 @@ class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
         appBar: AppBar(
           backgroundColor: Colors.white,
           elevation: 2,
-          title: const Text(
-            'Donor Dashboard',
-            style: TextStyle(
+          title: Text(
+            appBarList[myIndex],
+            style: const TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.bold,
             ),
@@ -68,6 +72,6 @@ class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
                 label: 'Profile',
               ),
             ]),
-        body: Center(child: widgetList[myIndex]));
+        body: Center(child: widgetList[myIndex]),);
   }
 }
