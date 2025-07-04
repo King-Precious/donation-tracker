@@ -235,7 +235,7 @@ one lowercase letter.''';
                   ),
                   const SizedBox(height: 15),
                   Center(
-                    child: Custombutton(
+                    child: CustomButton(
                       text: 'Create Account',
                       onPressed: () {
                         if (formkey.currentState!.validate() &&
