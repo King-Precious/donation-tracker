@@ -39,13 +39,13 @@ class HistoryCard extends StatelessWidget {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                Text(
+                const Text(
                   '\$50.00',
                   style: TextStyle(fontSize: 14),
                 ),
               ],
             ),
-            SizedBox(height: 5),
+            const SizedBox(height: 5),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
