@@ -88,7 +88,7 @@ class ProfilePage extends StatelessWidget {
                 'Help & Support',
               ),
               const SizedBox(height: 20),
-              Custombutton(text: 'Logout', onPressed: () {})
+              CustomButton(text: 'Logout', onPressed: () {})
             ],
           ),
         ),

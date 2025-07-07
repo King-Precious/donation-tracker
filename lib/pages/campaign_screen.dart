@@ -13,12 +13,12 @@ class CampaignScreen extends StatelessWidget {
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
         child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 18, vertical: 25),
+          padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 25),
           child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Padding(
+                const Padding(
                   padding: EdgeInsets.only(bottom: 10),
                   child: Text(
                     'Active Campaigns',
@@ -30,33 +30,37 @@ class CampaignScreen extends StatelessWidget {
                 ),
                 CustomTextfield(
                   controller: TextEditingController(),
-                  icon: Icon(Icons.search),
+                  icon: const Icon(Icons.search),
                   labeltext: 'Search Campaigns...',
                 ),
-                ReusableCard(
+                 ReusableCard(
                   title: 'Clean Water Project',
                   subtitle: 'Providing safe and clean drinking water',
                   type: 'environment',
-                ),
-                ReusableCard(
+                  onTap: () {}),
+                 ReusableCard(
                   title: 'Education For All',
                   subtitle: 'Building schools and providing learning',
                   type: 'emergency',
+                  onTap: (){},
                 ),
-                ReusableCard(
+                 ReusableCard(
                   title: 'Medical Aid Campaign',
                   subtitle: 'Delivering essential medical supplies',
                   type: 'health',
+                  onTap: (){},
                 ),
-                ReusableCard(
+                 ReusableCard(
                   title: 'Sustainable Farming Initiative',
                   subtitle: 'Empowering local farmers with resources',
                   type: 'environment',
+                  onTap: (){},
                 ),
-                ReusableCard(
+                 ReusableCard(
                   title: 'Emergency Relief Fund',
                   subtitle: 'DIsaster response and recovery',
                   type: 'emergency',
+                  onTap: (){},
                 ),
               ]),
         ),
