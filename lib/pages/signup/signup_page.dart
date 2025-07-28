@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:donation_tracker/utils/firebase_auth_methods.dart';
 import '../../theme/theme_colors.dart';
 import '../../widget/custom_button.dart';
 import '../../widget/custom_textfield.dart';
@@ -24,6 +25,13 @@ class _SignupPageState extends State<SignupPage> {
   final TextEditingController fullNameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+
+  Future<void> signUpWithEmail() async {
+    FirebaseAuthMethods(FirebaseAuth.instance).signUpWithEmail(
+      email: emailController.text.trim(),
+      password: passwordController.text.trim(),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -238,8 +246,10 @@ one lowercase letter.''';
                     child: Custombutton(
                       text: 'Create Account',
                       onPressed: () {
+                        signUpWithEmail;
                         if (formkey.currentState!.validate() &&
                             (selectedIndex == 0 || selectedIndex == 1)) {
+                          signUpWithEmail();
                           //Navigate to the next page or perform other actions
                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(content: Text('Account Created')),
