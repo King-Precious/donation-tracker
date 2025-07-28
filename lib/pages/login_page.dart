@@ -1,5 +1,7 @@
 import 'package:donation_tracker/widget/custom_button.dart';
 import 'package:donation_tracker/widget/custom_textfield.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:donation_tracker/utils/firebase_auth_methods.dart';
 import 'package:flutter/material.dart';
 import '../theme/theme_colors.dart';
 
@@ -13,6 +15,16 @@ class LoginPage extends StatefulWidget {
 final formkey = GlobalKey<FormState>();
 final TextEditingController emailController = TextEditingController();
 final TextEditingController passwordController = TextEditingController();
+
+
+ void LoginUser() {
+  FirebaseAuthMethods(FirebaseAuth.instance).loginWithEmail(
+    email: emailController.text.trim(),
+    password: passwordController.text.trim(),
+  );
+ }
+ 
+
 
 class _LoginPageState extends State<LoginPage> {
   String selectedRole = '';
@@ -171,6 +183,7 @@ contain at least one uppercase letter.''';
                     onPressed: () {
                       if (formkey.currentState!.validate() &&
                           (selectedRole == 'Donor' || selectedRole == 'NGO')) {
+                            LoginUser();
                         Navigator.pushNamed(context, '/donorDashboard');
                         // Perform login action
                         // For example, you can call an API to authenticate the user
