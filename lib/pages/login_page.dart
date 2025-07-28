@@ -166,7 +166,7 @@ contain at least one uppercase letter.''';
                   ),
                 ]),
                 const SizedBox(height: 20),
-                Custombutton(
+                CustomButton(
                     text: 'Log in',
                     onPressed: () {
                       if (formkey.currentState!.validate() &&
