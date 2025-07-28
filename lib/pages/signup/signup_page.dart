@@ -1,8 +1,8 @@
+import 'package:donation_tracker/utils/firebase_auth_methods.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:donation_tracker/utils/firebase_auth_methods.dart';
 import '../../theme/theme_colors.dart';
-import '../../widget/custom_button.dart';
+import 'package:donation_tracker/widget/custom_button.dart';
 import '../../widget/custom_textfield.dart';
 
 class SignupPage extends StatefulWidget {

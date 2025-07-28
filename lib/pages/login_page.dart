@@ -17,7 +17,7 @@ final TextEditingController emailController = TextEditingController();
 final TextEditingController passwordController = TextEditingController();
 
 
- void LoginUser() {
+ void loginUser() {
   FirebaseAuthMethods(FirebaseAuth.instance).loginWithEmail(
     email: emailController.text.trim(),
     password: passwordController.text.trim(),
@@ -183,7 +183,7 @@ contain at least one uppercase letter.''';
                     onPressed: () {
                       if (formkey.currentState!.validate() &&
                           (selectedRole == 'Donor' || selectedRole == 'NGO')) {
-                            LoginUser();
+                            loginUser();
                         Navigator.pushNamed(context, '/donorDashboard');
                         // Perform login action
                         // For example, you can call an API to authenticate the user
