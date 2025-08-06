@@ -1,12 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
-import 'package:flutter/material.dart';
-
 class FirebaseAuthMethods {
   final FirebaseAuth _auth;
   FirebaseAuthMethods(this._auth);
-
+  
 
 // EMAIL SIGN UP METHOD
   Future<void> signUpWithEmail({
@@ -47,7 +45,6 @@ class FirebaseAuthMethods {
     }
    }
    
-
   //  EMAIL VERIFICATION METHOD
   Future<void> sendEmailVerification() async {
     try {
