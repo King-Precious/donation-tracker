@@ -1,10 +1,9 @@
-import 'package:donation_tracker/pages/campaign_screen.dart';
+import 'package:donation_tracker/pages/campaigns/campaign_screen.dart';
 import 'package:flutter/material.dart';
 import '../pages/donor_dash.dart';
 import '../pages/profile.dart';
 import '../theme/theme_colors.dart';
 import '../pages/donation_history.dart';
-
 
 
 class BottomNavigationScreen extends StatefulWidget {

@@ -4,15 +4,19 @@ import '../theme/theme_colors.dart';
 
 class ReusableCard extends StatelessWidget {
   final String title;
-  final String subtitle;
-  final String type;
+  final String description;
+  final String category;
+  final int targetAmount;
+  final int donatedAmount;
   final VoidCallback? onTap;
 
   const ReusableCard({
     super.key,
     required this.title,
-    required this.subtitle,
-    required this.type,
+    required this.description,
+    required this.targetAmount,
+    required this.donatedAmount,
+    required this.category,
     required this.onTap,
   });
 
@@ -42,7 +46,7 @@ class ReusableCard extends StatelessWidget {
                 ),
               ),
               Text(
-                subtitle,
+                description,
                 style: const TextStyle(
                   fontSize: 15,
                 ),
@@ -66,7 +70,7 @@ class ReusableCard extends StatelessWidget {
                 child: Padding(
                   padding: const EdgeInsets.all(5),
                   child: Text(
-                    type,
+                    category,
                     style: const TextStyle(
                       fontSize: 13,
                       color: Themes.primaryColor,

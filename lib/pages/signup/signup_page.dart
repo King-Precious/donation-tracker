@@ -1,6 +1,7 @@
-import 'package:donation_tracker/utils/firebase_auth_methods.dart';
+import 'package:donation_tracker/firebase/authentication/data/firebase_auth_methods.dart';
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:provider/provider.dart';
+// import 'package:firebase_auth/firebase_auth.dart';
 import '../../theme/theme_colors.dart';
 import 'package:donation_tracker/widget/custom_button.dart';
 import '../../widget/custom_textfield.dart';
@@ -26,13 +27,53 @@ class _SignupPageState extends State<SignupPage> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
 
-  Future<void> signUpWithEmail() async {
-    FirebaseAuthMethods(FirebaseAuth.instance).signUpWithEmail(
-      email: emailController.text.trim(),
-      password: passwordController.text.trim(),
-    );
+  String get _selectedRole {
+    if (selectedIndex == 0) {
+      return 'donor';
+    } else if (selectedIndex == 1) {
+      return 'ngo';
+    }
+    return ''; // Return an empty string if nothing is selected
   }
 
+  // This is the function that will call our Firebase authentication method
+  void _signUpUser() {
+    // We check if the form is valid and a role has been selected
+    if (formkey.currentState!.validate() && selectedIndex != -1) {
+      // Step 1: Use Provider to get our service class instance
+      // We use listen: false because we only want to call a method, not listen for state changes.
+      Provider.of<FirebaseAuthMethods>(context, listen: false).signUpWithEmail(
+        email: emailController.text.trim(),
+        password: passwordController.text.trim(),
+        name: fullNameController.text.trim(),
+        role: _selectedRole, // Pass the selected role as a string
+        context: context,
+      );
+    } else {
+      // Show an error if validation fails or role is not selected
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Please fill all fields correctly and select a role.'),
+        ),
+      );
+    }
+  }
+
+  // Future<void> signUpWithEmail() async {
+  //   FirebaseAuthMethods(FirebaseAuth.instance).signUpWithEmail(
+  //     email: emailController.text.trim(),
+  //     password: passwordController.text.trim(),
+  //   );
+  // }
+
+  @override
+  void dispose() {
+    fullNameController.dispose();
+    emailController.dispose();
+    passwordController.dispose();
+    super.dispose();
+  }
+  
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -245,24 +286,7 @@ one lowercase letter.''';
                   Center(
                     child: CustomButton(
                       text: 'Create Account',
-                      onPressed: () {
-                        signUpWithEmail;
-                        if (formkey.currentState!.validate() &&
-                            (selectedIndex == 0 || selectedIndex == 1)) {
-                          signUpWithEmail();
-                          //Navigate to the next page or perform other actions
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(content: Text('Account Created')),
-                          );
-                          Navigator.pushNamed(context, '/login_page');
-                        } else {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                                content:
-                                    Text('Please fill all fields correctly')),
-                          );
-                        }
-                      },
+                      onPressed:  _signUpUser, // Call the sign-up function
                     ),
                   ),
                   const SizedBox(height: 5),
