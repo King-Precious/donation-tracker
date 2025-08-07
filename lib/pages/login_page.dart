@@ -1,8 +1,8 @@
 import 'package:donation_tracker/widget/custom_button.dart';
 import 'package:donation_tracker/widget/custom_textfield.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:donation_tracker/utils/firebase_auth_methods.dart';
+import 'package:donation_tracker/firebase/authentication/data/firebase_auth_methods.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../theme/theme_colors.dart';
 
 class LoginPage extends StatefulWidget {
@@ -12,61 +12,28 @@ class LoginPage extends StatefulWidget {
   State<LoginPage> createState() => _LoginPageState();
 }
 
+class _LoginPageState extends State<LoginPage> {
+  
+
 final formkey = GlobalKey<FormState>();
 final TextEditingController emailController = TextEditingController();
 final TextEditingController passwordController = TextEditingController();
 
-
- void loginUser() {
-  FirebaseAuthMethods(FirebaseAuth.instance).loginWithEmail(
-    email: emailController.text.trim(),
-    password: passwordController.text.trim(),
-  );
- }
  
-
-
-class _LoginPageState extends State<LoginPage> {
-  String selectedRole = '';
-
-  Widget _buildRoleOption(String role, IconData icon) {
-    return Container(
-      height: 50,
-      width: 350,
-      margin: const EdgeInsets.symmetric(vertical: 12),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(10),
-        border: Border.all(
-          color: selectedRole == role
-              ? Themes.secondaryColor
-              : Colors.grey.withOpacity(0.3),
-          width: 1,
-        ),
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          Radio(
-              value: role,
-              groupValue: selectedRole,
-              onChanged: (value) {
-                setState(() {
-                  selectedRole = value!;
-                });
-              }),
-          Icon(
-            icon,
-            color: Themes.primaryColor,
-          ),
-          Text(
-            role,
-            style: const TextStyle(fontSize: 15),
-          ),
-        ],
-      ),
-    );
+// This is the function that will call our login method
+  void _loginUser() {
+    // Check if the form fields are valid
+    if (formkey.currentState!.validate()) {
+      // Step 1: Use Provider to get our service class instance
+      // listen: false is used because we're just calling a method.
+      Provider.of<FirebaseAuthMethods>(context, listen: false).loginWithEmail(
+        email: emailController.text.trim(),
+        password: passwordController.text.trim(),
+        context: context,// Pass the context for error handling
+      );
+    }
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -128,11 +95,7 @@ class _LoginPageState extends State<LoginPage> {
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Please enter your email address';
-                    } else if (!RegExp(
-                            r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$')
-                        .hasMatch(value)) {
-                      return 'Please enter a valid email address';
-                    }
+                    } 
                     return null;
                   },
                 ),
@@ -150,54 +113,17 @@ class _LoginPageState extends State<LoginPage> {
                     validator: (value) {
                       if (value == null || value.isEmpty) {
                         return 'Please enter your password';
-                      } else if (value.length < 8 &&
-                          !RegExp(r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{8,}$')
-                              .hasMatch(value)) {
-                        return '''Password must be at least 8 characters long,
-contain at least one uppercase letter.''';
                       }
-                      return null;
-                    }),
-                const SizedBox(height: 10),
-                const Text(
-                  'Select Your Role',
-                  style: TextStyle(
-                    fontSize: 15,
-                    color: Color.fromARGB(255, 92, 91, 91),
-                  ),
+                        return null;
+                      }
                 ),
-                Column(children: [
-                  _buildRoleOption(
-                    'Donor',
-                    Icons.person_2_outlined,
-                  ),
-                  const SizedBox(width: 10),
-                  _buildRoleOption(
-                    'NGO',
-                    Icons.shield_outlined,
-                  ),
-                ]),
                 const SizedBox(height: 20),
+
+                
                 CustomButton(
                     text: 'Log in',
-                    onPressed: () {
-                      if (formkey.currentState!.validate() &&
-                          (selectedRole == 'Donor' || selectedRole == 'NGO')) {
-                            loginUser();
-                        Navigator.pushNamed(context, '/donorDashboard');
-                        // Perform login action
-                        // For example, you can call an API to authenticate the user
-                        // If successful, navigate to the dashboard
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(content: Text('Login Successful')),
-                        );
-                      } else {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                              content: Text('Please fill all fields')),
-                        );
-                      }
-                    }),
+                    onPressed: _loginUser,
+                    ),
                 const SizedBox(height: 10),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -227,7 +153,7 @@ contain at least one uppercase letter.''';
             ),
           ),
         ),
-      ),
+      )
     );
   }
 }

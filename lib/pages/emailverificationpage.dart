@@ -50,7 +50,7 @@ class EmailVerificationPage extends StatelessWidget {
               TextButton(
                 onPressed: () async {
                   // Allow the user to resend the verification email
-                  await firebaseAuthMethods.sendEmailVerification();
+                  await firebaseAuthMethods.sendEmailVerification(context);
                 },
                 child: const Text('Resend Verification Email'),
               ),

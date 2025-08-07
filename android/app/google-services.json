@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "610362174681",
+    "project_id": "donation-tracker-b9df5",
+    "storage_bucket": "donation-tracker-b9df5.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:610362174681:android:817784f41c468b77bc22c8",
+        "android_client_info": {
+          "package_name": "com.example.donation_tracker"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAMdNMicc0qtsJFRPHbheypvm55iajxzd8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
