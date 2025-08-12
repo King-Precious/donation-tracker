@@ -1,17 +1,19 @@
 import 'package:flutter/material.dart';
 
-import '../theme/theme_colors.dart';
+import '../../theme/theme_colors.dart';
 
 class HistoryCard extends StatelessWidget {
   final String title;
-  final String description;
+  final String subtitle;
   final String date;
+  final String amount;
 
   const HistoryCard({
     super.key,
     required this.title,
-    required this.description,
+    required this.subtitle,
     required this.date,
+    required this.amount,
   });
 
   @override
@@ -39,8 +41,8 @@ class HistoryCard extends StatelessWidget {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                const Text(
-                  '\$50.00',
+                 Text(
+                  amount,
                   style: TextStyle(fontSize: 14),
                 ),
               ],
@@ -50,7 +52,7 @@ class HistoryCard extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  date,
+                  subtitle,
                   style:
                       const TextStyle(fontSize: 12, color: Themes.borderColor),
                 ),
@@ -62,7 +64,7 @@ class HistoryCard extends StatelessWidget {
                   child: Padding(
                     padding: const EdgeInsets.all(5),
                     child: Text(
-                      description,
+                      date,
                       style: const TextStyle(
                         fontSize: 13,
                         color: Colors.green,

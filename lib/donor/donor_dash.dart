@@ -1,7 +1,7 @@
 // ignore_for_file: deprecated_member_use
-import 'package:donation_tracker/firebase/authentication/data/firebase_auth_methods.dart';
+import 'package:donation_tracker/firebase/authentication/firebase_auth_methods.dart';
 import 'package:flutter/material.dart';
-import 'package:donation_tracker/firebase/appuser.dart';
+import 'package:donation_tracker/models/appuser.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:provider/provider.dart';
 import '../theme/theme_colors.dart';

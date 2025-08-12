@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../firebase/authentication/data/firebase_auth_methods.dart';
+import '../firebase/authentication/firebase_auth_methods.dart';
 
 class EmailVerificationPage extends StatelessWidget {
   const EmailVerificationPage({super.key});
@@ -57,7 +57,7 @@ class EmailVerificationPage extends StatelessWidget {
               TextButton(
                 onPressed: () async {
                   // Log the user out and return to the login screen
-                  await firebaseAuthMethods.signOut();
+                  await firebaseAuthMethods.signOut(context);
                 },
                 child: const Text('Log Out'),
               ),

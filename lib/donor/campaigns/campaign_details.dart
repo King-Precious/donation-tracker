@@ -1,12 +1,12 @@
-import 'package:donation_tracker/pages/campaigns/camp_model.dart' show Campaign;
+import 'package:donation_tracker/donor/campaigns/camp_model.dart' show Campaign;
 import 'package:flutter/material.dart';
 import 'package:donation_tracker/widget/custom_button.dart';
 import '../../theme/theme_colors.dart';
 
-class CampaignDetails extends StatelessWidget {
+class CampaignDetailsScreen extends StatelessWidget {
   final Campaign campaign;
 
-  const CampaignDetails({
+  const CampaignDetailsScreen({
     super.key,
     required this.campaign,
   });
@@ -36,7 +36,7 @@ class CampaignDetails extends StatelessWidget {
           children: [
             Text(
               campaign.title,
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+              style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 10),
             Text(

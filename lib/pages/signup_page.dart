@@ -1,10 +1,10 @@
-import 'package:donation_tracker/firebase/authentication/data/firebase_auth_methods.dart';
+import 'package:donation_tracker/firebase/authentication/firebase_auth_methods.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 // import 'package:firebase_auth/firebase_auth.dart';
-import '../../theme/theme_colors.dart';
+import '../theme/theme_colors.dart';
 import 'package:donation_tracker/widget/custom_button.dart';
-import '../../widget/custom_textfield.dart';
+import '../widget/custom_textfield.dart';
 
 class SignupPage extends StatefulWidget {
   const SignupPage({super.key});

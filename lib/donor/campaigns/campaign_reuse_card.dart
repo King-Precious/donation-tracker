@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../theme/theme_colors.dart';
+import '../../theme/theme_colors.dart';
 
 class ReusableCard extends StatelessWidget {
   final String title;
@@ -22,6 +22,10 @@ class ReusableCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    double progressValue = targetAmount > 0
+        ? donatedAmount / targetAmount
+        : 0.0; // Avoid division by zero
     return GestureDetector(
       onTap: onTap,
       child: Container(
@@ -52,11 +56,11 @@ class ReusableCard extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 10),
-              const Text('\$ 35,000 / \$ 50,000'),
-              Padding(
-                padding: const EdgeInsets.all(10),
+             Text('\$ $donatedAmount / \$ $targetAmount'),
+              ClipRRect(
+                borderRadius: BorderRadius.circular(12),
                 child: LinearProgressIndicator(
-                  value: 0.7,
+                  value: progressValue,
                   backgroundColor: Themes.secondaryColor.withOpacity(0.1),
                   color: Themes.secondaryColor,
                   borderRadius: BorderRadius.circular(12),

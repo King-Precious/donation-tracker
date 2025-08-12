@@ -1,10 +1,11 @@
+import 'package:donation_tracker/pages/login_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import '../../appuser.dart';
+import '../../models/appuser.dart';
 
-class FirebaseAuthMethods {
+class FirebaseAuthMethods extends ChangeNotifier {
   final FirebaseAuth _auth;
   final FirebaseFirestore _firestore;
   FirebaseAuthMethods(this._auth, this._firestore);
@@ -87,14 +88,21 @@ class FirebaseAuthMethods {
     }
   }
 
-  Future<void> signOut() async {
+  Future<void> signOut(BuildContext context) async {
     try {
       await _auth.signOut();
-      Fluttertoast.showToast(msg: "Logged out successfully.");
-    } on FirebaseAuthException catch (e) {
-      Fluttertoast.showToast(msg: "Failed to log out: ${e.message}");
+    // After signing out, navigate to the login/landing screen
+    if (context.mounted) {
+      Navigator.of(context).pushAndRemoveUntil(
+        MaterialPageRoute(builder: (context) => const LoginPage()),
+        (Route<dynamic> route) => false,
+      );
     }
+    Fluttertoast.showToast(msg: "Signed out successfully!");
+  } on FirebaseAuthException catch (e) {
+    Fluttertoast.showToast(msg: e.message!);
   }
+}
 
 
 Future<Appuser?> getUserDetails(String uid) async {

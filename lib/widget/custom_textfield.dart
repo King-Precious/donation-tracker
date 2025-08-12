@@ -9,19 +9,21 @@ class CustomTextfield extends StatelessWidget {
     required this.controller,
     this.validator,
     this.icon,
+    this.keyboardType,
   });
 
   final TextEditingController controller;
   final String labeltext;
   final Widget? icon;
   final FormFieldValidator<String>? validator;
+  final TextInputType? keyboardType;
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
       controller: controller,
       validator: validator,
-      keyboardType: TextInputType.emailAddress,
+      keyboardType: keyboardType,
       decoration: InputDecoration(
         isDense: true,
         prefixIcon: icon,

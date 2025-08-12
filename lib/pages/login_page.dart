@@ -1,6 +1,6 @@
 import 'package:donation_tracker/widget/custom_button.dart';
 import 'package:donation_tracker/widget/custom_textfield.dart';
-import 'package:donation_tracker/firebase/authentication/data/firebase_auth_methods.dart';
+import 'package:donation_tracker/firebase/authentication/firebase_auth_methods.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../theme/theme_colors.dart';
@@ -49,10 +49,10 @@ final TextEditingController passwordController = TextEditingController();
             fontWeight: FontWeight.bold,
           ),
         ),
-        leading: IconButton(
-          onPressed: Navigator.of(context).pop,
-          icon: const Icon(Icons.arrow_back_ios),
-        ),
+        // leading: IconButton(
+        //   onPressed: Navigator.of(context).pop,
+        //   icon: const Icon(Icons.arrow_back_ios),
+        // ),
       ),
       body: SingleChildScrollView(
         child: Padding(
