@@ -29,7 +29,7 @@ class ReusableCard extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        height: 150,
+        // height: 150,
         width: double.infinity,
         margin: const EdgeInsets.only(top: 20),
         decoration: BoxDecoration(
@@ -39,7 +39,7 @@ class ReusableCard extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.all(10.0),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
@@ -51,12 +51,14 @@ class ReusableCard extends StatelessWidget {
               ),
               Text(
                 description,
+                maxLines: 2,
                 style: const TextStyle(
                   fontSize: 15,
                 ),
               ),
-              const SizedBox(height: 10),
+              const SizedBox(height: 3),
              Text('\$ $donatedAmount / \$ $targetAmount'),
+             const SizedBox(height: 3),
               ClipRRect(
                 borderRadius: BorderRadius.circular(12),
                 child: LinearProgressIndicator(
@@ -66,17 +68,18 @@ class ReusableCard extends StatelessWidget {
                   borderRadius: BorderRadius.circular(12),
                 ),
               ),
+              const SizedBox(height: 5),
               Container(
                 decoration: BoxDecoration(
                   color: Themes.primaryColor.withOpacity(0.1),
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: Padding(
-                  padding: const EdgeInsets.all(5),
+                  padding: const EdgeInsets.all(4),
                   child: Text(
                     category,
                     style: const TextStyle(
-                      fontSize: 13,
+                      fontSize: 12,
                       color: Themes.primaryColor,
                     ),
                   ),

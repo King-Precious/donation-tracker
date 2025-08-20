@@ -1,4 +1,4 @@
-import 'package:donation_tracker/pages/login_page.dart';
+import 'package:donation_tracker/models/ngo_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -65,16 +65,42 @@ class FirebaseAuthMethods extends ChangeNotifier {
       );
 
       if (_auth.currentUser != null && !_auth.currentUser!.emailVerified) {
-        Fluttertoast.showToast(
-            msg: "Please verify your email before logging in.");
         await sendEmailVerification(context);
       } else {
         Fluttertoast.showToast(msg: "Login successful!");
       }
     } on FirebaseAuthException catch (e) {
-      Fluttertoast.showToast(msg: "An error occurred: ${e.message}");
+      String errorMessage;
+
+      if (e.code == 'user-not-found') {
+        errorMessage = "No user found for that email. Please sign up";
+      } else if (e.code == 'wrong-password') {
+        errorMessage = "Wrong password provided. Please try again.";
+      } else if (e.code == 'invalid-email') {
+        errorMessage = "The email address is not valid.";
+      } else {
+        errorMessage = "An error occurred: ${e.message ?? 'Unknown error.'}";
+      }
+
+      Fluttertoast.showToast(msg: errorMessage);
     }
   }
+
+  
+  Future<NGO?> getNGOById(String ngoId) async {
+    try {
+      final docSnapshot = await _firestore.collection('ngos').doc(ngoId).get();
+      if (docSnapshot.exists) {
+        return NGO.fromMap(docSnapshot.data()!);
+      }
+      return null;
+    } catch (e) {
+      print('Error fetching NGO: $e');
+      return null;
+    }
+  }
+
+
 
   //  EMAIL VERIFICATION METHOD
   Future<void> sendEmailVerification(BuildContext context) async {
@@ -88,33 +114,30 @@ class FirebaseAuthMethods extends ChangeNotifier {
     }
   }
 
+  
+
   Future<void> signOut(BuildContext context) async {
     try {
       await _auth.signOut();
-    // After signing out, navigate to the login/landing screen
-    if (context.mounted) {
-      Navigator.of(context).pushAndRemoveUntil(
-        MaterialPageRoute(builder: (context) => const LoginPage()),
-        (Route<dynamic> route) => false,
-      );
+      // After signing out, navigate to the login/landing screen
+
+      Fluttertoast.showToast(msg: "Signed out successfully!");
+    } on FirebaseAuthException catch (e) {
+      Fluttertoast.showToast(
+          msg: e.message ?? 'An error occurred during signout');
     }
-    Fluttertoast.showToast(msg: "Signed out successfully!");
-  } on FirebaseAuthException catch (e) {
-    Fluttertoast.showToast(msg: e.message!);
   }
-}
 
 
-Future<Appuser?> getUserDetails(String uid) async {
-  try {
-    final docSnapshot = await _firestore.collection('users').doc(uid).get();
-    if (docSnapshot.exists) {
-      return Appuser.fromMap(docSnapshot.data()!);
+Stream<Appuser?> getUserDetails(String uid) {
+  // Listen to the document in real-time using snapshots()
+  return _firestore.collection('users').doc(uid).snapshots().map((snapshot) {
+    if (snapshot.exists) {
+      // Transform the DocumentSnapshot into an Appuser object
+      return Appuser.fromMap(snapshot.data()!);
     }
+    // If the document doesn't exist, return null
     return null;
-  } catch (e) {
-    Fluttertoast.showToast(msg: "Error fetching user data: ${e.toString()}");
-    return null;
-  }
+  });
 }
 }

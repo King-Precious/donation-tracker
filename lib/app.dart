@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:donation_tracker/donor/donate.dart';
 import 'package:donation_tracker/models/appuser.dart';
+import 'package:donation_tracker/models/ngo_model.dart';
 import 'package:donation_tracker/pages/login_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -30,6 +32,7 @@ class DonationApp extends StatelessWidget {
           '/signup_page': (context) => const SignupPage(),
           '/donation_history': (context) => const DonationHistory(),
           '/login_page': (context) => const LoginPage(),
+
         },
         home: const AuthWrapper(),
       ),
@@ -76,8 +79,8 @@ class AuthWrapper extends StatelessWidget {
         }
 
         // If the user is logged in and verified, get their role from Firestore
-        return FutureBuilder<Appuser?>(
-          future: Provider.of<FirebaseAuthMethods>(context, listen: false).getUserDetails(user.uid),
+        return StreamBuilder<Appuser?>(
+          stream: Provider.of<FirebaseAuthMethods>(context, listen: false).getUserDetails(user.uid),
           builder: (context, userSnapshot) {
             if (userSnapshot.connectionState == ConnectionState.waiting) {
               return const Scaffold(

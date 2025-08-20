@@ -9,9 +9,8 @@ import '../pages/profile.dart';
 import '../theme/theme_colors.dart';
 import '../donor/donate_history/donation_history.dart';
 
-
 class BottomNavigationScreen extends StatefulWidget {
-    final String userRole;
+  final String userRole;
   const BottomNavigationScreen({super.key, required this.userRole});
 
   @override
@@ -20,12 +19,13 @@ class BottomNavigationScreen extends StatefulWidget {
 
 class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
   int myIndex = 0;
-   
+
   late List<Widget> widgetList;
   late List<String> appBarList;
+  late List<bool> appBarVisible;
   late List<BottomNavigationBarItem> navItems;
 
-   @override
+  @override
   void initState() {
     super.initState();
     _setupNavigationItems();
@@ -45,6 +45,7 @@ class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
         'History',
         'Profile',
       ];
+      appBarVisible = const [false, true, true, true];
       navItems = const [
         BottomNavigationBarItem(
           icon: Icon(Icons.home_outlined),
@@ -64,11 +65,11 @@ class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
         ),
       ];
     } else if (widget.userRole == 'ngo') {
-      widgetList =  [
+      widgetList = [
         NgoDashboard(),
-        CampaignManagementScreen(),
-        NgoDonationHistoryScreen(),
-        NgoProfileScreen(),
+        const CampaignManagementScreen(),
+        const NgoDonationHistoryScreen(),
+        const NgoProfileScreen(),
       ];
       appBarList = const [
         'Admin Panel',
@@ -76,14 +77,24 @@ class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
         'Donation History',
         'Profile',
       ];
+      appBarVisible = [
+        true,
+        true,
+        true,
+        true,
+      ];
       navItems = const [
         BottomNavigationBarItem(
           icon: Icon(Icons.dashboard_outlined),
           label: 'Dashboard',
         ),
         BottomNavigationBarItem(
+          icon: Icon(Icons.flag_outlined),
+          label: 'Campaigns',
+        ),
+        BottomNavigationBarItem(
           icon: Icon(Icons.history),
-          label: 'Donations',
+          label: 'Donation History',
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.person),
@@ -93,33 +104,35 @@ class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
     }
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.white,
-        appBar: AppBar(
-          backgroundColor: Colors.white,
-          elevation: 2,
-          title: Text(
-            appBarList[myIndex],
-            style: const TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-        ),
-        bottomNavigationBar: BottomNavigationBar(
-            type: BottomNavigationBarType.fixed,
-            fixedColor: Themes.secondaryColor,
-            onTap: (index) {
-              setState(() {
-                myIndex = index;
-              });
-            },
-            currentIndex: myIndex,
-            items: navItems,
-            ),
-        body: Center(child: widgetList[myIndex]),);
+      backgroundColor: Colors.white,
+      appBar: appBarVisible[myIndex]
+          ? AppBar(
+              backgroundColor: Colors.white,
+              elevation: 2,
+              title: Text(
+                appBarList[myIndex],
+                style: const TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            )
+          : null,
+      bottomNavigationBar: BottomNavigationBar(
+        type: BottomNavigationBarType.fixed,
+        fixedColor: Themes.secondaryColor,
+        onTap: (index) {
+          setState(() {
+            myIndex = index;
+          });
+        },
+        currentIndex: myIndex,
+        items: navItems,
+      ),
+      body: SafeArea(child: widgetList[myIndex]),
+    );
   }
 }

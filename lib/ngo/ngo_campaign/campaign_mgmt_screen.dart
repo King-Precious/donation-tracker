@@ -12,7 +12,7 @@ class CampaignManagementScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final ngoId = FirebaseAuth.instance.currentUser!.uid;
-    TextEditingController _searchController = TextEditingController();
+    TextEditingController searchController = TextEditingController();
 
     return Scaffold(
       body: StreamBuilder<QuerySnapshot>(
@@ -44,7 +44,7 @@ class CampaignManagementScreen extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 8),
                   child: CustomTextfield(
-                    controller: _searchController,
+                    controller: searchController,
                     icon: const Icon(Icons.search),
                     labeltext: 'Search',
                   ),
@@ -67,12 +67,6 @@ class CampaignManagementScreen extends StatelessWidget {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Image.network(
-                              campaign.imageUrl,
-                              height: 150,
-                              width: double.infinity,
-                              fit: BoxFit.cover,
-                            ),
                             Padding(
                               padding: const EdgeInsets.all(16.0),
                               child: Column(
@@ -102,7 +96,7 @@ class CampaignManagementScreen extends StatelessWidget {
                                             color: Themes.primaryColor,
                                             fontWeight: FontWeight.bold),
                                       ),
-                                      Spacer(),
+                                      const Spacer(),
                                       Text(
                                         'Target: \$${campaign.targetAmount}',
                                         style:

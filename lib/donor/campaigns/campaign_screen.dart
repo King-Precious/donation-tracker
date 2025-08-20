@@ -5,7 +5,7 @@ import 'package:donation_tracker/donor/campaigns/campaign_reuse_card.dart';
 
 // import '../theme/theme_colors.dart';
 import '../../widget/custom_textfield.dart';
-import 'camp_model.dart';
+import '../../models/camp_model.dart';
 
 class CampaignScreen extends StatefulWidget {
   const CampaignScreen({super.key});

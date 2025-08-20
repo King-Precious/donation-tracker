@@ -9,7 +9,7 @@ class NgoCampaignModel {
   String category;
   double targetAmount;
   double donatedAmount;
-  String imageUrl;
+  // String imageUrl;
   Timestamp createdAt;
 
   NgoCampaignModel({
@@ -21,7 +21,7 @@ class NgoCampaignModel {
     required this.category,
     required this.targetAmount,
     required this.donatedAmount,
-    required this.imageUrl,
+    // required this.imageUrl,
     required this.createdAt,
   });
 
@@ -35,7 +35,7 @@ class NgoCampaignModel {
       category: map['category'] ?? '',
       targetAmount: map['targetAmount'] ?? 0,
       donatedAmount: map['donatedAmount'] ?? 0,
-      imageUrl: map['imageUrl'] ?? '',
+      // imageUrl: map['imageUrl'] ?? '',
       createdAt: map['createdAt'] as Timestamp,
     );
   }

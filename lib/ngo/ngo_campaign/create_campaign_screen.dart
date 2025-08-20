@@ -103,9 +103,16 @@ class _CreateCampaignScreenState extends State<CreateCampaignScreen> {
                 },
               ),
               const SizedBox(height: 16),
-              CustomTextfield(
+              TextFormField(
                 controller: _descriptionController,
-                labeltext: 'Description',
+                maxLines: 2,
+                decoration: InputDecoration(
+                  labelText:'Description',
+                  contentPadding: const EdgeInsets.all(16.0),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(8.0),
+                  ),
+                ),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Please enter a description';
@@ -113,17 +120,7 @@ class _CreateCampaignScreenState extends State<CreateCampaignScreen> {
                   return null;
                 },
               ),
-              const SizedBox(height: 16),
-              CustomTextfield(
-                controller: _imageUrlController,
-                labeltext: 'Image URL',
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter an image URL';
-                  }
-                  return null;
-                },
-              ),
+             
               const SizedBox(height: 16),
               DropdownButtonFormField<String>(
                 decoration: InputDecoration(
@@ -160,7 +157,7 @@ class _CreateCampaignScreenState extends State<CreateCampaignScreen> {
                   if (value == null || value.isEmpty) {
                     return 'Please enter a target amount';
                   }
-                  if (int.tryParse(value) == null || int.parse(value) <= 0) {
+                  if (int.tryParse(value) == null || int.parse(value) < 0) {
                     return 'Please enter a valid amount';
                   }
                   return null;

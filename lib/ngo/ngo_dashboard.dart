@@ -10,8 +10,6 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'ngo_history/ngo_history_model.dart';
 
-
-
 class NgoDashboard extends StatelessWidget {
   NgoDashboard({super.key});
 
@@ -19,27 +17,41 @@ class NgoDashboard extends StatelessWidget {
   Widget _buildSummaryCard({
     required String title,
     required String value,
-    required IconData icon,
+    // required IconData icon,
   }) {
     return Expanded(
       child: Container(
+        width: 200,
+        margin: const EdgeInsets.symmetric(horizontal: 1),
         padding: const EdgeInsets.all(12),
         decoration: BoxDecoration(
-          color: Themes.primaryColor.withOpacity(0.1),
           borderRadius: BorderRadius.circular(10),
+          border: Border.all(
+            color: Colors.grey,
+          ),
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(
               children: [
-                Icon(icon, color: Themes.primaryColor),
+                
+                Text(
+                  title,
+                  style: const TextStyle(
+                    fontSize: 16,
+                    color: Colors.grey,
+                  ),
+                ),
                 const SizedBox(width: 8),
-                Text(title, style: const TextStyle(fontSize: 14, color: Colors.grey)),
+                // Icon(icon, color: Themes.secondaryColor),
+                
               ],
             ),
             const SizedBox(height: 8),
-            Text(value, style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+            Text(value,
+                style:
+                    const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
           ],
         ),
       ),
@@ -74,12 +86,14 @@ class NgoDashboard extends StatelessWidget {
                         .where('ngoId', isEqualTo: ngoId)
                         .snapshots(),
                     builder: (context, donationSnapshot) {
-                      if (!campaignSnapshot.hasData || !donationSnapshot.hasData) {
+                      if (!campaignSnapshot.hasData ||
+                          !donationSnapshot.hasData) {
                         return const Center(child: CircularProgressIndicator());
                       }
 
                       final totalCampaigns = campaignSnapshot.data!.docs.length;
-                      final totalRaised = donationSnapshot.data!.docs.fold<int>(0, (sum, doc) => sum + (doc['amount'] as int? ?? 0));
+                      final totalRaised = donationSnapshot.data!.docs.fold<int>(
+                          0, (sum, doc) => sum + (doc['amount'] as int? ?? 0));
 
                       return Column(
                         children: [
@@ -92,15 +106,15 @@ class NgoDashboard extends StatelessWidget {
                           Row(
                             children: [
                               _buildSummaryCard(
-                                title: 'Total Campaigns',
+                                title: 'Total Campaign',
                                 value: totalCampaigns.toString(),
-                                icon: Icons.local_activity_outlined,
+                                // icon: Icons.local_activity_outlined,
                               ),
                               const SizedBox(width: 16),
                               _buildSummaryCard(
                                 title: 'Funds Raised',
                                 value: '\$${totalRaised.toStringAsFixed(2)}',
-                                icon: Icons.payments_outlined,
+                                // icon: Icons.payments_outlined,
                               ),
                             ],
                           ),
@@ -126,7 +140,8 @@ class NgoDashboard extends StatelessWidget {
                     onPressed: () {
                       Navigator.of(context).push(
                         MaterialPageRoute(
-                          builder: (context) => const NgoDonationHistoryScreen(),
+                          builder: (context) =>
+                              const NgoDonationHistoryScreen(),
                         ),
                       );
                     },
@@ -149,11 +164,13 @@ class NgoDashboard extends StatelessWidget {
                     return Center(child: Text('Error: ${snapshot.error}'));
                   }
                   if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
-                    return const Text('No donations received yet.', style: TextStyle(color: Colors.grey));
+                    return const Text('No donations received yet.',
+                        style: TextStyle(color: Colors.grey));
                   }
 
                   final donations = snapshot.data!.docs.map((doc) {
-                    return Donation.fromMap(doc.data() as Map<String, dynamic>, doc.id);
+                    return Donation.fromMap(
+                        doc.data() as Map<String, dynamic>, doc.id);
                   }).toList();
 
                   return ListView.builder(
@@ -162,13 +179,17 @@ class NgoDashboard extends StatelessWidget {
                     itemCount: donations.length,
                     itemBuilder: (context, index) {
                       final donation = donations[index];
-                      final formattedDate = DateFormat('MMMM dd, yyyy').format(donation.donationDate.toDate());
-                      
+                      final formattedDate = DateFormat('MMMM dd, yyyy')
+                          .format(donation.donationDate.toDate());
+
                       return Card(
                         margin: const EdgeInsets.only(bottom: 8),
                         child: ListTile(
-                          leading: const Icon(Icons.favorite, color: Themes.secondaryColor),
-                          title: Text('Donated to ${donation.campaignTitle}', style: const TextStyle(fontWeight: FontWeight.bold)),
+                          leading: const Icon(Icons.favorite,
+                              color: Themes.secondaryColor),
+                          title: Text('Donated to ${donation.campaignTitle}',
+                              style:
+                                  const TextStyle(fontWeight: FontWeight.bold)),
                           subtitle: Text(
                             'Amount: \$${donation.amount.toStringAsFixed(2)} | Date: $formattedDate',
                           ),

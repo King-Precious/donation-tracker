@@ -43,7 +43,7 @@ class HistoryCard extends StatelessWidget {
                 ),
                  Text(
                   amount,
-                  style: TextStyle(fontSize: 14),
+                  style: const TextStyle(fontSize: 14),
                 ),
               ],
             ),

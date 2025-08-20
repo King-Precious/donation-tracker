@@ -13,11 +13,7 @@ class NgoDonationHistoryScreen extends StatelessWidget {
     final ngoId = FirebaseAuth.instance.currentUser!.uid;
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Received Donations'),
-        backgroundColor: Themes.primaryColor,
-        foregroundColor: Colors.white,
-      ),
+     
       body: StreamBuilder<QuerySnapshot>(
         stream: FirebaseFirestore.instance
             .collection('donations')

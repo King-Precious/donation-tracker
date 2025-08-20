@@ -50,7 +50,7 @@ class CustomTextfield extends StatelessWidget {
           fontSize: 12,
           height: 1.2,
         ),
-        contentPadding: const EdgeInsets.all(16.0),
+        contentPadding: const EdgeInsets.all(10),
       ),
     );
   }
