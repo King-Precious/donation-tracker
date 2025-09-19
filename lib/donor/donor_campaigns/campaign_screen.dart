@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:donation_tracker/donor/campaigns/campaign_details.dart' show CampaignDetailsScreen;
+import 'package:donation_tracker/donor/donor_campaigns/campaign_details.dart' show CampaignDetailsScreen;
 import 'package:flutter/material.dart';
-import 'package:donation_tracker/donor/campaigns/campaign_reuse_card.dart';
+import 'package:donation_tracker/donor/donor_campaigns/campaign_reuse_card.dart';
 
 // import '../theme/theme_colors.dart';
 import '../../widget/custom_textfield.dart';

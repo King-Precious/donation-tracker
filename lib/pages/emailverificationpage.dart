@@ -41,7 +41,7 @@ class EmailVerificationPage extends StatelessWidget {
               const SizedBox(height: 30),
               ElevatedButton(
                 onPressed: () async {
-                  // This will refresh the user token and trigger the AuthWrapper
+                  // This will refresh the user token and trigger the signoutpper
                   // to re-evaluate the emailVerified status.
                   await firebaseAuthMethods.user?.reload();
                 },

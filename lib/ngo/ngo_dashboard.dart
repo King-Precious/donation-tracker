@@ -1,7 +1,6 @@
 // File: lib/ngo/ngo_dashboard.dart
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:donation_tracker/ngo/ngo_campaign/create_campaign_screen.dart';
 import 'package:donation_tracker/ngo/ngo_history/ngo_donation_screen.dart';
 import 'package:donation_tracker/theme/theme_colors.dart';
 import 'package:donation_tracker/widget/custom_textfield.dart';
@@ -203,17 +202,7 @@ class NgoDashboard extends StatelessWidget {
           ),
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.of(context).push(
-            MaterialPageRoute(
-              builder: (context) => const CreateCampaignScreen(),
-            ),
-          );
-        },
-        backgroundColor: Themes.primaryColor,
-        child: const Icon(Icons.add, color: Colors.white),
-      ),
+   
     );
   }
 }

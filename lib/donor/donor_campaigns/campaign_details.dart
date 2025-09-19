@@ -66,7 +66,7 @@ class _CampaignDetailsScreenState extends State<CampaignDetailsScreen> {
                 children: [
                    Text(
                     'Brought to you by: ${widget.campaign.ngoName}',
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 20,
                       fontStyle: FontStyle.italic,
                       color: Colors.grey,
@@ -87,7 +87,7 @@ class _CampaignDetailsScreenState extends State<CampaignDetailsScreen> {
                   const SizedBox(height: 10),
                   Text(
                     'Description: ${widget.campaign.description}',
-                    style: TextStyle(fontSize: 20),
+                    style: const TextStyle(fontSize: 20),
                   ),
                   const SizedBox(height: 8),
                   Text(

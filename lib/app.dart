@@ -1,7 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:donation_tracker/donor/donate.dart';
+// import 'package:donation_tracker/donor/donate.dart';
 import 'package:donation_tracker/models/appuser.dart';
-import 'package:donation_tracker/models/ngo_model.dart';
+// import 'package:donation_tracker/models/ngo_model.dart';
+import 'package:donation_tracker/ngo/ngo_profile/ngo_create_profile.dart';
 import 'package:donation_tracker/pages/login_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -52,7 +53,6 @@ class AuthWrapper extends StatelessWidget {
     }
 
     if (!authMethods.user!.emailVerified) {
-      // If the user is logged in but email is not verified, show the EmailVerificationPage
       return const EmailVerificationPage();
     }
 
@@ -64,43 +64,43 @@ class AuthWrapper extends StatelessWidget {
             body: Center(child: CircularProgressIndicator()),
           );
         }
-      
-      final user = snapshot.data;
 
+        final user = snapshot.data;
 
-        // If no user is logged in, show the Login page
         if (user == null) {
           return const LoginPage();
         }
 
-        // If a user is logged in but the email is not verified, show the verification page
         if (!user.emailVerified) {
           return const EmailVerificationPage();
         }
 
-        // If the user is logged in and verified, get their role from Firestore
         return StreamBuilder<Appuser?>(
           stream: Provider.of<FirebaseAuthMethods>(context, listen: false).getUserDetails(user.uid),
           builder: (context, userSnapshot) {
+            // Check the connection state of the Firestore stream
             if (userSnapshot.connectionState == ConnectionState.waiting) {
               return const Scaffold(
                 body: Center(child: CircularProgressIndicator()),
               );
             }
 
-            if (userSnapshot.hasError || !userSnapshot.hasData || userSnapshot.data == null) {
-              // Log the user out if their data is not found
+            // Now, check for errors or missing data AFTER waiting
+            if (userSnapshot.hasError || userSnapshot.data == null) {
+              // This indicates a critical issue.
+              // We could show an error, but logging out is a good fallback.
               Provider.of<FirebaseAuthMethods>(context, listen: false).signOut(context);
               return const LoginPage();
             }
-            
+
+            // Data is available.
             final userRole = userSnapshot.data!.role;
 
             // Route to the appropriate dashboard based on the user's role
             if (userRole == 'donor') {
               return const BottomNavigationScreen(userRole: 'donor',);
             } else if (userRole == 'ngo') {
-              return const BottomNavigationScreen(userRole: 'ngo');
+              return const NgoProfileSetupScreen();
             } else {
               // Log the user out if the role is unknown or invalid
               Provider.of<FirebaseAuthMethods>(context, listen: false).signOut(context);

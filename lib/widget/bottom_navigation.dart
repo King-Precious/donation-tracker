@@ -1,11 +1,10 @@
-import 'package:donation_tracker/donor/campaigns/campaign_screen.dart';
+import 'package:donation_tracker/donor/donor_campaigns/campaign_screen.dart';
 import 'package:donation_tracker/ngo/ngo_campaign/campaign_mgmt_screen.dart';
 import 'package:donation_tracker/ngo/ngo_dashboard.dart';
-import 'package:donation_tracker/ngo/ngo_profile_screen.dart';
 import 'package:flutter/material.dart';
 import '../donor/donor_dash.dart';
 import '../ngo/ngo_history/ngo_donation_screen.dart';
-import '../pages/profile.dart';
+import '../donor/donor_profile.dart';
 import '../theme/theme_colors.dart';
 import '../donor/donate_history/donation_history.dart';
 
@@ -66,10 +65,11 @@ class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
       ];
     } else if (widget.userRole == 'ngo') {
       widgetList = [
+        
         NgoDashboard(),
         const CampaignManagementScreen(),
         const NgoDonationHistoryScreen(),
-        const NgoProfileScreen(),
+        
       ];
       appBarList = const [
         'Admin Panel',

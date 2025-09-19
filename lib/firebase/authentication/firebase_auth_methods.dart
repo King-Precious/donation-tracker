@@ -27,15 +27,21 @@ class FirebaseAuthMethods extends ChangeNotifier {
         password: password,
       );
 
+      await _firestore.collection('ngos').doc(userCredential.user!.uid).set({
+        'name': 'Your NGO Name', // Get this from a registration form
+        'mission': 'Your mission statement',
+        'registrationNumber': '12345',
+        // ... other fields
+      });
       final appUser = Appuser(
         name: name,
         email: email,
         uid: userCredential.user!.uid,
-        role: role, // Default role, can be changed later
+        role: role,
       );
 
       await _firestore.collection('users').doc(userCredential.user!.uid).set(
-            appUser.toMap(), // Use the toMap() method from our Appuser model
+            appUser.toMap(),
           );
 
       await sendEmailVerification(context);
@@ -63,11 +69,14 @@ class FirebaseAuthMethods extends ChangeNotifier {
         email: email,
         password: password,
       );
+          notifyListeners(); 
 
       if (_auth.currentUser != null && !_auth.currentUser!.emailVerified) {
         await sendEmailVerification(context);
+        
       } else {
         Fluttertoast.showToast(msg: "Login successful!");
+
       }
     } on FirebaseAuthException catch (e) {
       String errorMessage;
@@ -86,12 +95,11 @@ class FirebaseAuthMethods extends ChangeNotifier {
     }
   }
 
-  
   Future<NGO?> getNGOById(String ngoId) async {
     try {
       final docSnapshot = await _firestore.collection('ngos').doc(ngoId).get();
       if (docSnapshot.exists) {
-        return NGO.fromMap(docSnapshot.data()!);
+        return NGO.fromMap(docSnapshot.data() as Map<String, dynamic>);
       }
       return null;
     } catch (e) {
@@ -100,9 +108,67 @@ class FirebaseAuthMethods extends ChangeNotifier {
     }
   }
 
+  Future<void> saveNgoProfile(NGO ngo) async {
+    try {
+      await _firestore.collection('ngos').doc(ngo.uid).set(ngo.toMap());
+      Fluttertoast.showToast(msg: "NGO profile saved successfully!");
+    } catch (e) {
+      Fluttertoast.showToast(msg: "Failed to save NGO profile: $e");
+    }
+  }
 
+  Future<String?> getNgoName(String uid) async {
+    try {
+      final ngoDoc = await _firestore.collection('ngos').doc(uid).get();
+      if (ngoDoc.exists) {
+        return ngoDoc.data()?['name'];
+      }
+    } catch (e) {
+      print('Error fetching NGO name: $e');
+    }
+    return null;
+  }
 
-  //  EMAIL VERIFICATION METHOD
+  // Method to create a campaign using the provider
+  Future<void> createCampaign({
+    required String title,
+    required String description,
+    required String category,
+    required double targetAmount,
+    // required String imageUrl,
+  }) async {
+    try {
+      final user = _auth.currentUser;
+      if (user == null) {
+        throw Exception("User not authenticated.");
+      }
+
+      final ngoName = await getNgoName(user.uid);
+      if (ngoName == null) {
+        throw Exception("NGO profile not found.");
+      }
+
+      final newCampaign = {
+        'title': title,
+        'description': description,
+        // 'imageUrl': imageUrl,
+        'category': category,
+        'targetAmount': targetAmount,
+        'donatedAmount': 0.0, // Use double for donated amount
+        'ngoId': user.uid,
+        'ngoName': ngoName, // Save the NGO name
+        'createdAt': FieldValue.serverTimestamp(),
+      };
+
+      await _firestore.collection('campaigns').add(newCampaign);
+      Fluttertoast.showToast(msg: "Campaign created successfully!");
+    } catch (e) {
+      Fluttertoast.showToast(msg: "Failed to create campaign: $e");
+      rethrow;
+    }
+  }
+
+  // EMAIL VERIFICATION METHOD
   Future<void> sendEmailVerification(BuildContext context) async {
     try {
       await _auth.currentUser!.sendEmailVerification();
@@ -114,13 +180,9 @@ class FirebaseAuthMethods extends ChangeNotifier {
     }
   }
 
-  
-
   Future<void> signOut(BuildContext context) async {
     try {
       await _auth.signOut();
-      // After signing out, navigate to the login/landing screen
-
       Fluttertoast.showToast(msg: "Signed out successfully!");
     } on FirebaseAuthException catch (e) {
       Fluttertoast.showToast(
@@ -128,16 +190,12 @@ class FirebaseAuthMethods extends ChangeNotifier {
     }
   }
 
-
-Stream<Appuser?> getUserDetails(String uid) {
-  // Listen to the document in real-time using snapshots()
-  return _firestore.collection('users').doc(uid).snapshots().map((snapshot) {
-    if (snapshot.exists) {
-      // Transform the DocumentSnapshot into an Appuser object
-      return Appuser.fromMap(snapshot.data()!);
-    }
-    // If the document doesn't exist, return null
-    return null;
-  });
-}
+  Stream<Appuser?> getUserDetails(String uid) {
+    return _firestore.collection('users').doc(uid).snapshots().map((snapshot) {
+      if (snapshot.exists) {
+        return Appuser.fromMap(snapshot.data()!);
+      }
+      return null;
+    });
+  }
 }

@@ -98,7 +98,7 @@ class _DonorDashboardState extends State<DonorDashboard> {
                     ],
                   ),
                 ),
-                SizedBox(height: 15),
+                const SizedBox(height: 15),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
@@ -111,7 +111,7 @@ class _DonorDashboardState extends State<DonorDashboard> {
                         'Animal health'),
                   ],
                 ),
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
                 Row(
                   children: [
                     const Text(
@@ -121,7 +121,7 @@ class _DonorDashboardState extends State<DonorDashboard> {
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    Spacer(),
+                    const Spacer(),
                     TextButton(
                       onPressed: () {},
                       child: const Text(

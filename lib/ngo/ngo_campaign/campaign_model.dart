@@ -33,8 +33,8 @@ class NgoCampaignModel {
       ngoName: map['ngoName'] ?? '',
       ngoId: map['ngoId'] ?? '',
       category: map['category'] ?? '',
-      targetAmount: map['targetAmount'] ?? 0,
-      donatedAmount: map['donatedAmount'] ?? 0,
+      targetAmount: (map['targetAmount'] as num?)?.toDouble() ?? 0.0,
+      donatedAmount: (map['donatedAmount'] as num?)?.toDouble()?? 0.0,
       // imageUrl: map['imageUrl'] ?? '',
       createdAt: map['createdAt'] as Timestamp,
     );
