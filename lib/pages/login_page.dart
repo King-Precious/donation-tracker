@@ -1,6 +1,6 @@
 import 'package:donation_tracker/widget/custom_button.dart';
 import 'package:donation_tracker/widget/custom_textfield.dart';
-import 'package:donation_tracker/firebase/authentication/data/firebase_auth_methods.dart';
+import 'package:donation_tracker/firebase/authentication/firebase_auth_methods.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../theme/theme_colors.dart';
@@ -21,12 +21,12 @@ final TextEditingController passwordController = TextEditingController();
 
  
 // This is the function that will call our login method
-  void _loginUser() {
+  void _loginUser() async{
     // Check if the form fields are valid
     if (formkey.currentState!.validate()) {
       // Step 1: Use Provider to get our service class instance
       // listen: false is used because we're just calling a method.
-      Provider.of<FirebaseAuthMethods>(context, listen: false).loginWithEmail(
+     await Provider.of<FirebaseAuthMethods>(context, listen: false).loginWithEmail(
         email: emailController.text.trim(),
         password: passwordController.text.trim(),
         context: context,// Pass the context for error handling
@@ -49,10 +49,10 @@ final TextEditingController passwordController = TextEditingController();
             fontWeight: FontWeight.bold,
           ),
         ),
-        leading: IconButton(
-          onPressed: Navigator.of(context).pop,
-          icon: const Icon(Icons.arrow_back_ios),
-        ),
+        // leading: IconButton(
+        //   onPressed: Navigator.of(context).pop,
+        //   icon: const Icon(Icons.arrow_back_ios),
+        // ),
       ),
       body: SingleChildScrollView(
         child: Padding(

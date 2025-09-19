@@ -1,10 +1,10 @@
-import 'package:donation_tracker/firebase/authentication/data/firebase_auth_methods.dart';
+import 'package:donation_tracker/firebase/authentication/firebase_auth_methods.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 // import 'package:firebase_auth/firebase_auth.dart';
-import '../../theme/theme_colors.dart';
+import '../theme/theme_colors.dart';
 import 'package:donation_tracker/widget/custom_button.dart';
-import '../../widget/custom_textfield.dart';
+import '../widget/custom_textfield.dart';
 
 class SignupPage extends StatefulWidget {
   const SignupPage({super.key});
@@ -73,7 +73,7 @@ class _SignupPageState extends State<SignupPage> {
     passwordController.dispose();
     super.dispose();
   }
-  
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -286,19 +286,32 @@ one lowercase letter.''';
                   Center(
                     child: CustomButton(
                       text: 'Create Account',
-                      onPressed:  _signUpUser, // Call the sign-up function
+                      onPressed: _signUpUser, // Call the sign-up function
                     ),
                   ),
                   const SizedBox(height: 5),
-                  const Center(
-                    child: Text(
-                      '''By registering, you agree to our Terms of Service 
-                    and receive donations.''',
-                      style: TextStyle(
-                        color: Colors.grey,
-                        fontSize: 14,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,                    children: [
+                      const Text(
+                        '''By registering, you agree to our Terms of 
+Service and receive donations, ''',
+                        style: TextStyle(
+                          color: Themes.borderColor,
+                          fontSize: 15,
+                        ),
                       ),
-                    ),
+                      TextButton(
+                        onPressed: () {
+                          Navigator.pushNamed(context, '/login_page');
+                        },
+                        child: const Text('Login In',
+                          style: TextStyle(
+                            color: Themes.secondaryColor,
+                            fontSize: 15,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ],
               ),
