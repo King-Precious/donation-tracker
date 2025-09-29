@@ -3,7 +3,7 @@ import 'package:donation_tracker/widget/custom_button.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../models/appuser.dart';
+// REMOVED: import '../models/appuser.dart';
 import '../firebase/authentication/firebase_auth_methods.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -14,10 +14,14 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-
+  // The _signOut logic remains, as we still need a way to log a user out
+  // if they happen to be logged in when viewing this page.
   Future<void> _signOut() async {
-    final authMethods = Provider.of<FirebaseAuthMethods>(context, listen: false);
-    await authMethods.signOut(context);
+    // Check if a user is currently signed in before trying to sign them out
+    if (FirebaseAuth.instance.currentUser != null) {
+      final authMethods = Provider.of<FirebaseAuthMethods>(context, listen: false);
+      await authMethods.signOut(context);
+    }
     
     // Navigate to the login page and remove all other routes
     if (mounted) {
@@ -30,88 +34,83 @@ class _ProfilePageState extends State<ProfilePage> {
   
   @override
   Widget build(BuildContext context) {
-    final firebaseUser = FirebaseAuth.instance.currentUser;
-    final authMethods =
-        Provider.of<FirebaseAuthMethods>(context, listen: false);
+    // REMOVED: final firebaseUser = FirebaseAuth.instance.currentUser;
+    // REMOVED: final authMethods = Provider.of<FirebaseAuthMethods>(context, listen: false);
+
+    // Determines if the Logout button should be visible.
+    final isLoggedIn = FirebaseAuth.instance.currentUser != null;
 
     return Scaffold(
-      body: StreamBuilder(
-        stream: authMethods.getUserDetails(firebaseUser!.uid),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
-          }
-          if (snapshot.hasError || !snapshot.hasData || snapshot.data == null) {
-            return const Center(child: Text('Error loading user data.'));
-          }
-
-          final appUser = snapshot.data!;
-
-          return SingleChildScrollView(
-            child: Padding(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 20.0, vertical: 15),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  _buildProfileCard(appUser),
-                  const SizedBox(height: 20),
-                  _buildMenuSection(
-                    'Account Settings',
-                    [
-                      _ProfileMenuItem(
-                        icon: Icons.lock_outline,
-                        title: 'Change Password',
-                        onTap: () {
-                          // Navigate to edit profile page
-                        },
-                      ),
-                      _ProfileMenuItem(
-                        icon: Icons.notifications_active_outlined,
-                        title: 'Notification Settings',
-                        onTap: () {
-                          // Navigate to email settings page
-                        },
-                      ),
-                    ],
+      // The StreamBuilder is completely removed.
+      body: SingleChildScrollView(
+        child: Padding(
+          padding:
+              const EdgeInsets.symmetric(horizontal: 20.0, vertical: 15),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // Use a generic card since user data is removed.
+              _buildGenericAppCard(), 
+              const SizedBox(height: 20),
+              _buildMenuSection(
+                'Account Settings',
+                [
+                  _ProfileMenuItem(
+                    icon: Icons.lock_outline,
+                    title: 'Change Password',
+                    onTap: () {
+                      // Action for Change Password
+                    },
                   ),
-                  const SizedBox(height: 20),
-                  _buildMenuSection(
-                    'General',
-                    [
-                      _ProfileMenuItem(
-                        icon: Icons.shield_outlined,
-                        title: 'Privacy Policy',
-                        onTap: () {
-                          // Navigate to language settings page
-                        },
-                      ),
-                      _ProfileMenuItem(
-                        icon: Icons.help_outline,
-                        title: 'Help & Support',
-                        onTap: () {
-                          // Navigate to language settings page
-                        },
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 20),
-                  CustomButton(
-                    text: 'Logout',
-                    onPressed: _signOut,
+                  _ProfileMenuItem(
+                    icon: Icons.notifications_active_outlined,
+                    title: 'Notification Settings',
+                    onTap: () {
+                      // Action for Notification Settings
+                    },
                   ),
                 ],
               ),
-            ),
-          );
-        },
+              const SizedBox(height: 20),
+              _buildMenuSection(
+                'General',
+                [
+                  _ProfileMenuItem(
+                    icon: Icons.shield_outlined,
+                    title: 'Privacy Policy',
+                    onTap: () {
+                      // Action for Privacy Policy
+                    },
+                  ),
+                  _ProfileMenuItem(
+                    icon: Icons.help_outline,
+                    title: 'Help & Support',
+                    onTap: () {
+                      // Action for Help & Support
+                    },
+                  ),
+                ],
+              ),
+              const SizedBox(height: 20),
+              // Only show the Logout button if a user is logged in
+              if (isLoggedIn) 
+                CustomButton(
+                  text: 'Logout',
+                  onPressed: _signOut,
+                ),
+            ],
+          ),
+        ),
       ),
     );
   }
 }
 
-Widget _buildProfileCard(Appuser appUser) {
+// 2. Modified Helper Widget: _buildProfileCard -> _buildGenericAppCard
+
+// We can no longer use Appuser, so we create a new generic widget.
+Widget _buildGenericAppCard() {
   return Container(
     height: 260,
     width: double.infinity,
@@ -128,21 +127,22 @@ Widget _buildProfileCard(Appuser appUser) {
         children: [
           const CircleAvatar(
             radius: 50,
+            // You can keep the image asset or change it to an app logo/icon
             backgroundImage: AssetImage(
-              'lib/assets/images/IMG-20250116-WA0053.jpg',
+              'lib/assets/images/IMG-20250116-WA0053.jpg', 
             ),
           ),
           const SizedBox(height: 10),
-          Text(
-            appUser.name,
-            style: const TextStyle(
+          const Text(
+            'Precious O.King', // Generic App Name
+            style: TextStyle(
               fontSize: 24,
               fontWeight: FontWeight.bold,
             ),
           ),
-          Text(
-            appUser.email,
-            style: const TextStyle(
+          const Text(
+            'kingprecious068@gmail.com ', // App Version
+            style: TextStyle(
               fontSize: 16,
               color: Colors.grey,
             ),
@@ -150,15 +150,15 @@ Widget _buildProfileCard(Appuser appUser) {
           const SizedBox(height: 10),
           Container(
             height: 40,
-            width: 80,
+            width: 80, // Widened container for better text fit
             decoration: BoxDecoration(
               color: const Color.fromARGB(255, 131, 13, 13).withOpacity(0.3),
               borderRadius: BorderRadius.circular(20),
             ),
-            child: Center(
+            child: const Center(
               child: Text(
-                appUser.role,
-                  style: const TextStyle(
+                'Donor', // Generic Status
+                  style: TextStyle(
                     color: Colors.white,
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
@@ -171,7 +171,9 @@ Widget _buildProfileCard(Appuser appUser) {
   );
 }
 
+// The other helper widgets remain the same
 Widget _buildMenuSection(String title, List<Widget> items) {
+  // ... (Code remains the same)
   return Container(
     decoration: BoxDecoration(
       borderRadius: BorderRadius.circular(12),
@@ -208,6 +210,7 @@ class _ProfileMenuItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // ... (Code remains the same)
     return InkWell(
       onTap: onTap,
       child: Column(

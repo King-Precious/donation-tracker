@@ -9,8 +9,8 @@ class Campaign {
   final String ngoName;
   final String category;
   // final String imageUrl;
-  final int targetAmount;
-  final int donatedAmount;
+  final double targetAmount;
+  final double donatedAmount;
 
   Campaign({
     required this.id,
@@ -33,8 +33,8 @@ class Campaign {
       ngoName: map['ngoName'] ?? '',
       category: map['category'] ?? '',
       // imageUrl: map['imageUrl'] ?? '',
-      targetAmount: map['targetAmount'] ?? 0,
-      donatedAmount: map['donatedAmount'] ?? 0,
+     targetAmount: (map['targetAmount'] as num?)?.toDouble() ?? 0.0,
+      donatedAmount: (map['donatedAmount'] as num?)?.toDouble() ?? 0.0,
     );
   }
 }

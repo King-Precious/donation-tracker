@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:donation_tracker/donor/donate_history/donor_history_model.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import '../../theme/theme_colors.dart';
@@ -9,11 +8,12 @@ import '../../donor/donate_history/history_card.dart';
 class DonationHistory extends StatelessWidget {
   const DonationHistory({super.key});
 
-  
   Widget _buildSummaryCard(List<Donation> donations) {
-    int totalAmount = 0;
+    // Note: totalAmount is calculated from all donations fetched in the stream.
+    double totalAmount = 0.0;
     for (var donation in donations) {
-      totalAmount += donation.amount;
+      // Assuming donation.amount is accessible and convertable to double
+      totalAmount += donation.amount.toDouble(); 
     }
 
     return Container(
@@ -30,14 +30,15 @@ class DonationHistory extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           const Text(
-            'Total Donations Made',
+            // Changed title to reflect general data
+            'Total Donations in System',
             style: TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.w500,
             ),
           ),
           Text(
-            '\$${totalAmount.toStringAsFixed(2)}',
+            '\$${totalAmount.toStringAsFixed(2)}', 
             style: const TextStyle(
               fontSize: 30,
               fontWeight: FontWeight.bold,
@@ -45,7 +46,7 @@ class DonationHistory extends StatelessWidget {
             ),
           ),
           Text(
-            'Across ${donations.length} campaigns',
+            'Across ${donations.length} total transactions', // Changed subtitle
             style: const TextStyle(
               fontSize: 12,
               color: Themes.borderColor,
@@ -58,13 +59,16 @@ class DonationHistory extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final userId = FirebaseAuth.instance.currentUser!.uid;
-
+    // 🛑 REMOVED: final currentUser = FirebaseAuth.instance.currentUser;
+    // 🛑 REMOVED: The null check for currentUser and the error message.
+    
+    // Now, the widget always attempts to load data, regardless of the user's login status.
     return Scaffold(
       body: StreamBuilder(
         stream: FirebaseFirestore.instance
             .collection('donations')
-            .where('donorId', isEqualTo: userId)
+            // 🛑 REMOVED: .where('donorId', isEqualTo: userId)
+            // The stream now fetches ALL donations.
             .orderBy('donationDate', descending: true)
             .snapshots(),
         builder: (context, snapshot) {
@@ -76,10 +80,13 @@ class DonationHistory extends StatelessWidget {
           }
           if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
             return const Center(
-                child: Text('You have not made any donations yet.'));
+                // Changed message to reflect general data
+                child: Text('No donations have been recorded yet.'));
           }
 
           final donations = snapshot.data!.docs.map((doc) {
+            // Note: If the Donation model relies on user data for its properties, 
+            // you may need to adjust the model as well.
             return Donation.fromMap(doc.data(), doc.id);
           }).toList();
 
@@ -111,10 +118,10 @@ class DonationHistory extends StatelessWidget {
                       return HistoryCard(
                         title: donation.campaignTitle,
                         subtitle: donation.subtitle,
-                          date: formattedDate,
-                          amount: 
-                            '\$${donation.amount.toStringAsFixed(2)}',    
-                          );
+                        date: formattedDate,
+                        amount:
+                            '\$${donation.amount.toStringAsFixed(2)}',
+                      );
                     },
                   ),
                 ],

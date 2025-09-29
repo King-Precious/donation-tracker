@@ -6,8 +6,8 @@ class ReusableCard extends StatelessWidget {
   final String title;
   final String description;
   final String category;
-  final int targetAmount;
-  final int donatedAmount;
+  final double targetAmount;
+  final double donatedAmount;
   final VoidCallback? onTap;
 
   const ReusableCard({

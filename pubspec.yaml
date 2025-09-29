@@ -43,6 +43,7 @@ dependencies:
   intl: ^0.18.0 
   walletconnect_dart: ^0.0.11
   url_launcher: ^6.3.2
+  web3dart: ^2.7.1
 
 dev_dependencies:
   flutter_test:
@@ -72,6 +73,7 @@ flutter:
     - lib/assets/images/faucet.png
     - lib/assets/images/heartbeat.png
     - lib/assets/images/scholarship.png
+    - lib/assets/images/charity.png
  
 
   # An image asset can refer to one or more resolution-specific "variants", see
